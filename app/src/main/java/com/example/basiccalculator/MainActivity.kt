@@ -1,8 +1,7 @@
 package com.example.basiccalculator
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -20,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     var value_number = 1
     var typeOfAction = -1
     var isFirstTime :Boolean = true
+    var isEqualPressed :Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,7 +53,7 @@ private fun addlValue(number:Int){
 }
  private  fun performAction(type:Int) {
      typeOfAction = type
-     if(!isFirstTime) {
+     if(!isFirstTime && !isEqualPressed) {
          var answer = 0F
          when (typeOfAction) {
              ACTION.ADD.ordinal -> answer = value1 + value2
@@ -75,7 +75,8 @@ private fun addlValue(number:Int){
 
  }
 private  fun Equalsto(){
-    isFirstTime = true
+    isFirstTime = false
+    isEqualPressed = true
     var answer :Float = 0F
     when(typeOfAction){
         ACTION.ADD.ordinal -> answer = (value1+value2)
