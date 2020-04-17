@@ -1,6 +1,7 @@
 package com.example.basiccalculator
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,12 +19,16 @@ class MainActivity : AppCompatActivity() {
     var value1  = 0F
     var value2  = 0F
     var value_number = 1
+    var divider = 1
     var typeOfAction = 0
     var isFirstTime :Boolean = true
     var isEqualPressed :Boolean = false
     var isDotPressed :Boolean = false
-    var divider = 1
     var isLastActionIsReset = true
+    var isLastActionSign = false
+    var GLOBALANSWER=0F
+    var isValue1Filled = false
+    var isValue2Filled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,11 +49,13 @@ class MainActivity : AppCompatActivity() {
         btnDivide.setOnClickListener{performAction(ACTION.DIVIDE.ordinal)}
         btnDel.setOnClickListener{ResetValue()}
         btnEquals.setOnClickListener{Equalsto()}
+      // historyVieiw.movementMethod(ScrollingMovementMethod(true))
     }
 
 
 private fun addlValue(number:Float,isDot:Boolean = false){
     isLastActionIsReset =false
+    isLastActionSign =false
     if(isDot == true){
         isDotPressed = true
     }
@@ -62,6 +69,7 @@ private fun addlValue(number:Float,isDot:Boolean = false){
                 value1 = value1 * 10 + number
 
             txtAnswer.text = value1.toString()
+            isValue1Filled = true
         } else {
             if(isDotPressed) {
                 divider = divider*10
@@ -71,32 +79,58 @@ private fun addlValue(number:Float,isDot:Boolean = false){
                 value2 = value2 * 10 + number
 
             txtAnswer.text = value2.toString()
+            isValue2Filled = true
         }
     }
 }
  private  fun performAction(type:Int) {
+     if(isLastActionSign) {
+         return
+     }
+     isLastActionSign = true
      isLastActionIsReset = false
      typeOfAction = type
      isDotPressed = false
      divider = 1
-    // if(!isFirstTime  ) this.Equalsto()
-
      if (value_number == 1)
          value_number = 2
      else
          value_number = 1
 
-
+     if(isValue1Filled && isValue2Filled){
+         value1 = Evaluate()
+         value2 = 0F
+         isValue1Filled = true;
+         isValue2Filled = false
+         value_number  = 2
+     }
 
  }
+    private fun Evaluate():Float{
+        var answer = 0F
+        when(typeOfAction){
+            ACTION.ADD.ordinal -> answer = (value1+value2)
+            ACTION.SUBS.ordinal-> answer = (value1-value2)
+            ACTION.MULTI.ordinal ->answer = (value1*value2)
+            ACTION.DIVIDE.ordinal->answer = (value1/value2)
+                            else -> answer = (value1+value2)
+        }
+        var str2 :String =  value1.toString() + " " + getSign(typeOfAction) + " "+ value2.toString()  + " = " + answer
+    historyVieiw.text = historyVieiw.text as String  + str2 +"\n"
+        txtAnswer.text = answer.toString()
+    return answer
+    }
 private  fun Equalsto(){
- if(isLastActionIsReset == true) {
+    if(!isValue1Filled || !isValue2Filled  )
+        return
+ if(isLastActionIsReset == true ) {
      return
  }
+    isLastActionIsReset = false
     isFirstTime = false
-    var histStr:String = historyVieiw.text as String
-    var str2 :String =  value1.toString() + " " + getSign(typeOfAction) + " "+ value2.toString()
     var answer :Float = 0F
+
+    var str2 :String =  value1.toString() + " " + getSign(typeOfAction) + " "+ value2.toString()
     when(typeOfAction){
         ACTION.ADD.ordinal -> answer = (value1+value2)
         ACTION.SUBS.ordinal-> answer = (value1-value2)
@@ -107,17 +141,21 @@ private  fun Equalsto(){
             }
       //  ACTION.EQUALS.ordinal->answer = (value1+value2)
     }
-    value1  =0F
-    value2 =  answer
-    value_number = 1
-    ResetValue();
 
-    historyVieiw.text =  histStr+ str2+ "= " + answer.toString()+"\n"
+    GLOBALANSWER  = answer
+    var histStr:String = historyVieiw.text as String
+    ResetValue()
+    historyVieiw.text =  histStr+ str2+ "= " + answer.toString()+" \n "
     txtAnswer.text = answer.toString()
 }
+
+
     private  fun ResetValue(){
         isLastActionIsReset = true
+        isValue1Filled = false
+        isValue2Filled = false
         isFirstTime = true;
+        isLastActionSign = false
         value1 = 0F
         value2= 0F
         value_number =1
@@ -140,4 +178,6 @@ private  fun Equalsto(){
     }
 
 }
+
+
 
