@@ -147,8 +147,7 @@
             android:layout_marginLeft="84dp"
             android:layout_marginTop="71dp"
             android:background="@drawable/button_background"
-            android:text="0"
-            android:textSize="24sp" />
+            android:text="0" />
 
         <Button
             android:id="@+id/btnDot"
@@ -157,8 +156,7 @@
             android:layout_alignTop="@id/btn1"
             android:layout_marginTop="67dp"
             android:background="@drawable/button_background"
-            android:text="."
-            android:textSize="24sp" />
+            android:text="." />
 
         <Button
             android:id="@+id/btnSubs"
@@ -239,9 +237,24 @@
         android:text="Input Value"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.895" />
+        app:layout_constraintVertical_bias="0.968" />
+
+    <TextView
+        android:id="@+id/historyVieiw"
+        android:layout_width="400dp"
+        android:layout_height="101dp"
+        android:background="@drawable/layout_border"
+        android:gravity="bottom|right"
+        android:padding="20dp"
+        android:scrollbars="horizontal|vertical"
+        android:verticalScrollbarPosition="defaultPosition"
+        app:layout_constraintBottom_toTopOf="@+id/txtAnswer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.275" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
