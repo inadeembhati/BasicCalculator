@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
         btnDivide.setOnClickListener{performAction(ACTION.DIVIDE.ordinal)}
         btnDel.setOnClickListener{ResetValue()}
         btnEquals.setOnClickListener{Equalsto()}
-      // historyVieiw.movementMethod(ScrollingMovementMethod(true))
+       //  historyVieiw.movementMethod = ScrollingMovementMethod()
+
     }
 
 
@@ -116,7 +117,7 @@ private fun addlValue(number:Float,isDot:Boolean = false){
                             else -> answer = (value1+value2)
         }
         var str2 :String =  value1.toString() + " " + getSign(typeOfAction) + " "+ value2.toString()  + " = " + answer
-    historyVieiw.text = historyVieiw.text as String  + str2 +"\n"
+    historyVieiw.text = historyVieiw.text as String  + str2 + "  ||  "
         txtAnswer.text = answer.toString()
     return answer
     }
@@ -145,7 +146,7 @@ private  fun Equalsto(){
     GLOBALANSWER  = answer
     var histStr:String = historyVieiw.text as String
     ResetValue()
-    historyVieiw.text =  histStr+ str2+ "= " + answer.toString()+" \n "
+    historyVieiw.text =  histStr+ str2+ "= " + answer.toString()+"  ||  "
     txtAnswer.text = answer.toString()
 }
 
@@ -161,7 +162,7 @@ private  fun Equalsto(){
         value_number =1
         typeOfAction = -1
         txtAnswer.text = ""
-        historyVieiw.text = ""
+        historyVieiw.text = "History"
         isDotPressed = false
         divider = 1
     }
